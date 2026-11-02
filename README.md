@@ -290,7 +290,7 @@ Root detection order: `CTXKEEPER_ROOT` → nearest `.ctxkeeper` or project manif
 
 Roadmap: incremental index → event-log compaction → optional local embeddings with lexical fallback → “recently changed files → related memories” in the brief.
 
-See [docs/alternatives.md](docs/alternatives.md) for an honest comparison with `AGENTS.md`, the official Memory server, mem0/Letta, Graphify/Serena, and Context7. See [docs/research.md](docs/research.md) for the full 2026 MCP landscape and why this layer is underserved.
+See [docs/alternatives.md](docs/alternatives.md) for an honest comparison with `AGENTS.md`, the official Memory server, mem0/Letta, Graphify/Serena, and Context7. See [docs/research.md](docs/research.md) for the full 2026 MCP landscape and why this layer is underserved. [docs/architecture.md](docs/architecture.md) explains the event log, retrieval pipeline, and extension points.
 
 ---
 
