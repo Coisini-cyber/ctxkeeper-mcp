@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ctxkeeper — durable memory for AI coding agents</title>
+  <meta name="description" content="Local-first MCP server that gives AI coding agents durable project memory and token-budgeted context packs. No API keys, no vector DB, no telemetry.">
+  <link rel="canonical" href="https://coisini-cyber.github.io/ctxkeeper-mcp/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ctxkeeper — durable memory for AI coding agents">
+  <meta property="og:description" content="One brief. The right 30 lines. Decisions that survive the session. Local-first MCP, no API keys, no vector DB.">
+  <meta property="og:image" content="https://coisini-cyber.github.io/ctxkeeper-mcp/assets/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ctxkeeper — durable memory for AI coding agents">
+  <meta name="twitter:description" content="Local-first MCP for project memory and token-budgeted context packs.">
+  <meta name="twitter:image" content="https://coisini-cyber.github.io/ctxkeeper-mcp/assets/social-card.png">
+  <style>
+    :root {
+      --bg: #070b16;
+      --bg2: #0d1424;
+      --card: rgba(255, 255, 255, 0.035);
+      --border: rgba(255, 255, 255, 0.09);
+      --text: #e8eef8;
+      --muted: #9aabc3;
+      --dim: #6f7f98;
+      --violet: #8b5cf6;
+      --cyan: #22d3ee;
+      --green: #4ade80;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+    .nav {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 11, 22, 0.78);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { font-family: var(--mono); font-weight: 700; letter-spacing: -0.5px; }
+    .brand span { color: var(--violet); }
+    .nav-links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 18px; border-radius: 10px;
+      text-decoration: none; font-weight: 600; font-size: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06); }
+    .btn.primary {
+      background: linear-gradient(120deg, var(--violet), var(--cyan));
+      color: #071018; border: 0;
+    }
+    .hero { padding: 64px 0 40px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; width: 620px; height: 620px; right: -180px; top: -260px;
+      background: radial-gradient(circle, rgba(139,92,246,.22), transparent 65%);
+      pointer-events: none;
+    }
+    .hero img.banner { width: 100%; border-radius: 18px; border: 1px solid var(--border); display: block; }
+    .hero h1 { font-size: clamp(34px, 5vw, 58px); line-height: 1.08; letter-spacing: -1.5px; margin: 44px 0 18px; max-width: 900px; }
+    .hero h1 .g { background: linear-gradient(100deg, var(--violet), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p.lead { font-size: 19px; color: var(--muted); max-width: 760px; margin: 0 0 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+    .pill { border: 1px solid var(--border); background: var(--card); border-radius: 999px; padding: 6px 11px; }
+    section { padding: 56px 0; }
+    h2 { font-size: 28px; letter-spacing: -0.6px; margin: 0 0 10px; }
+    .sub { color: var(--muted); margin: 0 0 28px; max-width: 720px; }
+    .grid { display: grid; gap: 16px; }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 17px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+    .card .k { font-family: var(--mono); font-size: 12px; color: var(--cyan); letter-spacing: .5px; }
+    .terminal {
+      background: #0a1120; border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,.35);
+    }
+    .bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; background: #0e1728; border-bottom: 1px solid var(--border); }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .bar span { margin-left: 8px; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+    pre { margin: 0; padding: 22px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.75; }
+    .c { color: #7dd3fc; } .m { color: #94a3b8; } .ok { color: var(--green); } .v { color: #c4b5fd; }
+    code { font-family: var(--mono); }
+    .codebox {
+      background: #0a1120; border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 20px; overflow-x: auto; font-family: var(--mono); font-size: 13px; line-height: 1.8; color: #dbe6f6;
+    }
+    .codebox .c { color: #7dd3fc; } .codebox .dim { color: var(--dim); }
+    .cols { display: grid; grid-template-columns: 1.05fr .95fr; gap: 22px; align-items: start; }
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li { padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.06); color: var(--muted); font-size: 14.5px; }
+    .checklist li:last-child { border-bottom: 0; }
+    .checklist b { color: var(--text); font-weight: 600; }
+    .checklist li::before { content: "✓"; color: var(--green); font-family: var(--mono); margin-right: 10px; }
+    footer { border-top: 1px solid var(--border); padding: 34px 0 50px; color: var(--dim); font-size: 13px; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    @media (max-width: 900px) {
+      .g3, .g2, .cols { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero { padding-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">ctx<span>keeper</span></div>
+      <div class="nav-links">
+        <a href="#why">Why</a>
+        <a href="#demo">Demo</a>
+        <a href="#tools">Tools</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">GitHub ↗</a>
+      </div>
+      <a class="btn primary" href="https://github.com/Coisini-cyber/ctxkeeper-mcp">Star on GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <img class="banner" src="assets/banner.svg" alt="ctxkeeper — durable memory for AI coding agents">
+      <h1>Your agent forgets <span class="g">everything between sessions.</span></h1>
+      <p class="lead">
+        ctxkeeper is a local-first MCP server that gives AI coding agents durable project memory
+        and token-budgeted context packs. One brief, the right 30 lines, decisions that survive the session.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/Coisini-cyber/ctxkeeper-mcp">Get started →</a>
+        <a class="btn" href="#demo">See the output</a>
+      </div>
+      <div class="meta">
+        <span class="pill">local-first</span>
+        <span class="pill">zero API keys</span>
+        <span class="pill">no vector DB</span>
+        <span class="pill">10 e2e tests</span>
+        <span class="pill">MIT</span>
+        <span class="pill">Node ≥ 20.11</span>
+      </div>
+    </div>
+  </header>
+
+  <section id="why">
+    <div class="wrap">
+      <h2>The missing layer is context, not connectors</h2>
+      <p class="sub">The MCP ecosystem has plenty of tools. What it lacks is a way to remember a project and read less of it.</p>
+      <div class="grid g3">
+        <div class="card">
+          <div class="k">PROBLEM 01</div>
+          <h3>Every session starts cold</h3>
+          <p>Architecture decisions, constraints, and the command that actually runs tests get re-explained every day.</p>
+        </div>
+        <div class="card">
+          <div class="k">PROBLEM 02</div>
+          <h3>Whole files for 30 lines</h3>
+          <p>Agents grep, then read hundreds of lines to find one function. The context window pays for it.</p>
+        </div>
+        <div class="card">
+          <div class="k">PROBLEM 03</div>
+          <h3>Handoffs are manual</h3>
+          <p>Switch clients or close the laptop, and the next session has no idea what changed or what comes next.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="wrap">
+      <h2>What a session looks like</h2>
+      <p class="sub">Two calls replace exploratory reads. Memory writes are one line each.</p>
+      <div class="terminal">
+        <div class="bar">
+          <i class="dot" style="background:#ff5f57"></i>
+          <i class="dot" style="background:#febc2e"></i>
+          <i class="dot" style="background:#28c840"></i>
+          <span>ctxkeeper — demo</span>
+        </div>
+        <pre><span class="c">$ project_brief</span>
+<span class="m">stack · commands · files to read first · git · TODOs · decisions · gotchas</span>
+<span class="ok">✓ 1.2k tokens</span>
+
+<span class="c">$ context_pack("where is the OAuth token refreshed?")</span>
+<span class="m">src/auth/refresh.ts:42-78</span>
+<span class="m">+ the decision that explains the 60s early-refresh rule</span>
+<span class="ok">✓ 1.0k tokens</span>
+
+<span class="c">$ remember(type="gotcha", title="refresh must happen 60s early")</span>
+<span class="ok">✓ saved to .ctxkeeper/events.jsonl</span>
+
+<span class="c">$ log_work(summary="...", files=[...], next_steps=[...])</span>
+<span class="ok">✓ handoff ready for tomorrow</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools">
+    <div class="wrap">
+      <h2>Eight tools, one loop</h2>
+      <p class="sub">Enter the project, locate code, record decisions, hand off. No 60-tool surface to pollute the prompt.</p>
+      <div class="grid g2">
+        <div class="card">
+          <div class="k">READ</div>
+          <h3>project_brief · context_pack · recall · status</h3>
+          <p>Onboarding, cited code windows under a token budget, memory search, and diagnostics.</p>
+        </div>
+        <div class="card">
+          <div class="k">WRITE</div>
+          <h3>remember · todo · log_work · forget</h3>
+          <p>Durable decisions, gotchas, commands, TODOs, and work logs. Archive is reversible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Install in a minute</h2>
+      <p class="sub">Node.js ≥ 20.11. One process, one append-only file, no services to run.</p>
+      <div class="cols">
+        <div>
+          <div class="codebox"><span class="dim"># clone and verify</span>
+git clone https://github.com/Coisini-cyber/ctxkeeper-mcp.git
+cd ctxkeeper-mcp
+npm install
+npm test
+
+<span class="dim"># see it on this repo</span>
+npm run demo -- . "how does the store work"</div>
+        </div>
+        <div>
+          <div class="codebox"><span class="dim">// ~/.config/opencode/opencode.json</span>
+{
+  "mcp": {
+    "ctxkeeper": {
+      "type": "local",
+      "command": ["node", <span class="c">"/abs/path/dist/index.js"</span>]
+    }
+  }
+}</div>
+          <p class="sub" style="margin-top:14px;font-size:13px">
+            Omit <code>cwd</code>. The server detects the project root from the workspace,
+            so one entry works in every repository.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <h2>Built like a tool you can audit</h2>
+          <ul class="checklist">
+            <li><b>Append-only JSONL</b> — replayable, crash-tolerant, reversible archive.</li>
+            <li><b>No network</b> — no API keys, accounts, telemetry, or cloud storage.</li>
+            <li><b>Read-only code access</b> — the only subprocess is fixed-argument git.</li>
+            <li><b>Sensitive files skipped</b> — .env, keys, credentials; tokens redacted.</li>
+            <li><b>Token-aware</b> — every context tool has a budget and degrades gracefully.</li>
+            <li><b>No mid-code truncation</b> — best window or skip, never half a function.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Measured, not promised</h2>
+          <p class="sub">On this repository: 17 files, ~2.9k LOC, Windows 11, Node 22.23.</p>
+          <div class="grid g2">
+            <div class="card"><div class="k">PROJECT_BRIEF</div><h3>~10 ms</h3><p>0.5–1.2k tokens</p></div>
+            <div class="card"><div class="k">CONTEXT_PACK</div><h3>~8–10 ms</h3><p>~1.0k tokens, 2–4 windows</p></div>
+            <div class="card"><div class="k">READING STORE.TS</div><h3>3.5–4k</h3><p>tokens for 430 lines</p></div>
+            <div class="card"><div class="k">TESTS</div><h3>10/10</h3><p>real stdio, Node 20/22</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="card" style="text-align:center;padding:44px 24px;background:linear-gradient(140deg,rgba(139,92,246,.12),rgba(34,211,238,.06))">
+        <h2 style="margin-bottom:10px">Give your agent a memory</h2>
+        <p class="sub" style="margin:0 auto 22px">If it saves you a few thousand tokens today, a star helps other developers find it.</p>
+        <div class="cta" style="justify-content:center">
+          <a class="btn primary" href="https://github.com/Coisini-cyber/ctxkeeper-mcp">Star the repo</a>
+          <a class="btn" href="https://github.com/Coisini-cyber/ctxkeeper-mcp/releases/tag/v0.1.0">v0.1.0 release</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div>MIT © 2026 Sixian Deng · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">GitHub</a> · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp/blob/main/docs/research.md">Research</a></div>
+      <div>Not affiliated with Anthropic. MCP is an open protocol.</div>
+    </div>
+  </footer>
+</body>
+</html>
