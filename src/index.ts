@@ -2,10 +2,13 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { buildBrief } from "./brief.js";
+import { runCli } from "./cli.js";
 import { loadConfig } from "./paths.js";
 import { StoreHub } from "./store.js";
 import { registerTools } from "./tools.js";
 import { SERVER_NAME, VERSION } from "./version.js";
+
+if (runCli(process.argv.slice(2))) process.exit(process.exitCode ?? 0);
 
 const cfg = loadConfig();
 const hub = new StoreHub(cfg.projectDir, cfg.globalDir);

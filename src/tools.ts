@@ -3,11 +3,11 @@ import { z } from "zod";
 import { buildBrief } from "./brief.js";
 import type { Config } from "./paths.js";
 import { packContext } from "./pack.js";
-import { invalidateScan, scanRepoCached } from "./scan.js";
+import { invalidateScan } from "./scan.js";
+import { buildStatus } from "./status.js";
 import type { Memory, MemoryType } from "./types.js";
 import type { StoreHub } from "./store.js";
 import { oneLine, truncate } from "./text.js";
-import { VERSION } from "./version.js";
 
 const MEMORY_TYPES = [
   "decision",
@@ -342,21 +342,6 @@ export function registerTools(server: McpServer, cfg: Config, hub: StoreHub): vo
       annotations: { readOnlyHint: true, idempotentHint: true },
     },
     async () =>
-      run(() => {
-        const stats = hub.stats();
-        const scan = scanRepoCached(cfg);
-        return [
-          `# ctxkeeper ${VERSION}`,
-          `root: ${cfg.root}`,
-          `project store: ${cfg.projectDir}`,
-          `global store: ${cfg.globalDir}`,
-          `project: ${stats.project.memories} active memories · ${stats.project.openTodos} open todos · ${stats.project.worklogs} worklogs · ${stats.project.badLines} bad log lines`,
-          `global: ${stats.global.memories} active memories · ${stats.global.worklogs} worklogs`,
-          `git: ${scan.git.available ? `${scan.git.branch} (${scan.git.dirty ?? 0} uncommitted)` : "unavailable"}`,
-          `scan: ${scan.files} files, ~${scan.loc} LOC${scan.truncated ? " (capped)" : ""}`,
-          `code search: ${cfg.codeSearch ? "on" : "off"} · max file ${Math.round(cfg.maxFileBytes / 1024)} KB`,
-          `root override: ${process.env.CTXKEEPER_ROOT ? "CTXKEEPER_ROOT" : "auto-detected"}`,
-        ].join("\n");
-      }),
+      run(() => buildStatus(cfg, hub)),
   );
 }

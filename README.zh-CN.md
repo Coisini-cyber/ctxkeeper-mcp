@@ -79,7 +79,7 @@ Agent → log_work(summary="实现刷新端点", files=[...], next_steps=[...])
 cd D:\mcp\ctxkeeper
 npm install
 npm run build
-npm test          # 10 项端到端测试，真实 stdio 握手
+npm test          # 11 项端到端测试，真实 stdio 握手
 npm run demo -- . "记忆是怎么排序的"
 ```
 
@@ -92,6 +92,14 @@ npx -y github:Coisini-cyber/ctxkeeper-mcp
 ```
 
 在终端直接运行会看起来像卡住——它是一个等待客户端连接的 stdio server。
+
+同一个二进制也带一个轻量 CLI，方便不接客户端直接检查输出：
+
+```bash
+node dist/index.js --brief
+node dist/index.js --pack "token 刷新在哪里做的？"
+node dist/index.js --doctor
+```
 
 ---
 
@@ -209,7 +217,7 @@ MCP server 会在握手时下发 `instructions`，但不同客户端对它的重
 | --- | --- | --- |
 | `project_brief`（缓存命中） | ~10 ms | 约 500–1200 tokens |
 | `context_pack`（16 文件全扫） | ~8–10 ms | 约 1.0k tokens，2 个文件、4 段引用 |
-| 端到端测试 | 10/10 通过 | 真实 stdio + 官方 SDK client |
+| 端到端测试 | 11/11 通过 | 真实 stdio + 官方 SDK client |
 
 对比：直接读 `src/store.ts`（430 行）约 3.5–4k tokens；`context_pack` 只返回命中的 2 段，约 1k tokens。仓库越大、文件越长，差距越明显。
 

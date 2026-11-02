@@ -96,7 +96,7 @@ Requires **Node.js >= 20.11**.
 git clone https://github.com/Coisini-cyber/ctxkeeper-mcp.git
 cd ctxkeeper-mcp
 npm install          # also builds via the prepare script
-npm test             # 10 end-to-end tests over real stdio
+npm test             # 11 end-to-end tests over real stdio
 npm run demo -- . "how does the store work"
 ```
 
@@ -109,6 +109,14 @@ npx -y github:Coisini-cyber/ctxkeeper-mcp
 ```
 
 Running that in a terminal will look like it hangs — it is a stdio server waiting for a client.
+
+The same binary is also a small CLI, useful for checking output without an MCP client:
+
+```bash
+node dist/index.js --brief
+node dist/index.js --pack "where is the token refreshed?"
+node dist/index.js --doctor
+```
 
 ---
 
@@ -204,7 +212,7 @@ read first: `src/index.ts`, `README.md`
 - [m_mvzb4prdcpo9j] **The user's home directory is a git repo** — never adopt home/temp as the project root
 
 ## Recent work
-- 2026-11-02 [success] Shipped ctxkeeper: event-sourced memory, brief, context pack, 10 e2e tests
+- 2026-11-02 [success] Shipped ctxkeeper: event-sourced memory, brief, context pack, 11 e2e tests
   · next: incremental index; event-log compaction; one-week field test
 ```
 

@@ -20,5 +20,5 @@ First public release.
 - Read-only code access: ignore rules, sensitive-file exclusions, and
   high-confidence credential redaction.
 - MCP resource `ctxkeeper://brief`, prompt `onboard`, and server instructions.
-- 10 end-to-end tests using the official MCP SDK client over real stdio.
+- 11 end-to-end tests using the official MCP SDK client over real stdio.
 - CI matrix for Node 20 and 22, MIT license, security policy, and issue templates.

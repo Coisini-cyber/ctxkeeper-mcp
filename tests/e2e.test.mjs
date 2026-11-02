@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -272,6 +273,26 @@ test("ctxkeeper end-to-end over stdio", async (t) => {
         arguments: { query: "Refresh tokens", limit: 5 },
       });
       assert.match(textOf(back), new RegExp(id));
+    });
+
+    await t.test("CLI commands work without an MCP client", () => {
+      const run = (args) =>
+        execFileSync(process.execPath, [SERVER, ...args], {
+          cwd: root,
+          env,
+          encoding: "utf8",
+          timeout: 30_000,
+        });
+
+      assert.equal(run(["--version"]).trim(), "0.1.0");
+      assert.match(run(["--help"]), /--pack/);
+      assert.match(run(["--doctor"]), /project store:/);
+      const brief = run(["--brief", "--tokens=500"]);
+      assert.match(brief, /fixture-app/);
+      assert.ok(brief.length < 500 * 3 + 800, "CLI brief respects its budget");
+      const pack = run(["--pack", "REFRESH_MARKER_42", "--tokens=800", "--files=2"]);
+      assert.match(pack, /src\/auth\.ts/);
+      assert.match(pack, /REFRESH_MARKER_42/);
     });
 
     await t.test("status and resource expose diagnostics", async () => {
