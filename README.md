@@ -102,6 +102,14 @@ npm run demo -- . "how does the store work"
 
 `demo` prints `status`, `project_brief`, and one `context_pack`, so you can judge the output quality before wiring it into a client.
 
+No clone? Point your MCP client at the repository directly (it builds on first run):
+
+```bash
+npx -y github:Coisini-cyber/ctxkeeper-mcp
+```
+
+Running that in a terminal will look like it hangs — it is a stdio server waiting for a client.
+
 ---
 
 ## Connect to OpenCode
@@ -123,6 +131,8 @@ Add this to your **global** config, `~/.config/opencode/opencode.json` (on Windo
 ```
 
 Do **not** set `cwd`: the server detects the project root from the workspace, so one entry works in every repository.
+
+If you prefer not to clone, use `"command": ["npx", "-y", "github:Coisini-cyber/ctxkeeper-mcp"]`. It builds on first run and is slower to start; the local path is recommended for daily use.
 
 Verify:
 

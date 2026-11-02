@@ -85,6 +85,14 @@ npm run demo -- . "记忆是怎么排序的"
 
 `demo` 会打印 `status`、`project_brief` 和一次 `context_pack`，用来确认安装和观察输出质量。
 
+不想 clone 也可以直接在 MCP 客户端里指向仓库（首次运行会自动构建）：
+
+```bash
+npx -y github:Coisini-cyber/ctxkeeper-mcp
+```
+
+在终端直接运行会看起来像卡住——它是一个等待客户端连接的 stdio server。
+
 ---
 
 ## 4. 接入 OpenCode
@@ -108,6 +116,8 @@ npm run demo -- . "记忆是怎么排序的"
 ```
 
 **不要写 `cwd`**：server 会以当前工作区为起点自动探测项目根目录，因此同一个配置在所有仓库都能用。
+
+如果不想 clone，可以用 `"command": ["npx", "-y", "github:Coisini-cyber/ctxkeeper-mcp"]`。首次启动会构建，速度较慢；日常使用仍推荐本地路径。
 
 验证：
 
