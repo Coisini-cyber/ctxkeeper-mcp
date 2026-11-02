@@ -270,7 +270,29 @@ Root detection order: `CTXKEEPER_ROOT` → nearest `.ctxkeeper` or project manif
 
 Roadmap: incremental index → event-log compaction → optional local embeddings with lexical fallback → “recently changed files → related memories” in the brief.
 
-See [docs/research.md](docs/research.md) for the full 2026 MCP landscape and why this layer is underserved.
+See [docs/alternatives.md](docs/alternatives.md) for an honest comparison with `AGENTS.md`, the official Memory server, mem0/Letta, Graphify/Serena, and Context7. See [docs/research.md](docs/research.md) for the full 2026 MCP landscape and why this layer is underserved.
+
+---
+
+## FAQ
+
+**Does it work with Claude Code / Cursor / Windsurf?**
+Any client that supports local stdio MCP servers can run it. The examples use OpenCode, but the server itself has no client-specific code.
+
+**Does it replace `AGENTS.md` / `CLAUDE.md`?**
+No. Those are static instructions you maintain by hand. `ctxkeeper` adds dynamic project state (decisions, gotchas, TODOs, recent work) and retrieves only the relevant parts.
+
+**Does my code leave the machine?**
+No. There are no network calls, no accounts, and no telemetry. Code excerpts are read locally and returned to the client you already use.
+
+**Why not embeddings?**
+v0.1 deliberately trades semantic recall for zero install friction and offline operation. Lexical retrieval plus identifier/CJK tokenization covers concrete questions; an optional local embedding backend is on the roadmap.
+
+**Is the memory committed to git?**
+No. `.ctxkeeper/.gitignore` contains `*`, so the store stays local by default. Delete that file if you want to commit curated memories.
+
+**How large a repo can it handle?**
+Scans are capped at 6,000 files / 24 MB per call. Small and medium repositories are fine; very large monorepos need the incremental index on the roadmap.
 
 ---
 

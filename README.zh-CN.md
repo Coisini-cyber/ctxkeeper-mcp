@@ -67,7 +67,7 @@ Agent → log_work(summary="实现刷新端点", files=[...], next_steps=[...])
 | 通用 RAG / 向量记忆（多数要外部服务或重配置） | **本地、零依赖、按 token 预算精准取上下文** |
 | "能读整个仓库" | "只读该读的 30 行" |
 
-`ctxkeeper` 刻意不做又一个 filesystem / GitHub server，而是减少它们的调用次数。完整调研、数据来源和竞品分析见 [`docs/research.md`](docs/research.md)。
+`ctxkeeper` 刻意不做又一个 filesystem / GitHub server，而是减少它们的调用次数。完整调研、数据来源和竞品分析见 [`docs/research.md`](docs/research.md)，与 `AGENTS.md`、官方 Memory server、mem0/Letta、Graphify/Serena、Context7 的对比见 [`docs/alternatives.md`](docs/alternatives.md)。
 
 ---
 
