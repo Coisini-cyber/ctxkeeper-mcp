@@ -20,5 +20,6 @@ First public release.
 - Read-only code access: ignore rules, sensitive-file exclusions, and
   high-confidence credential redaction.
 - MCP resource `ctxkeeper://brief`, prompt `onboard`, and server instructions.
+- CLI mode: `--help`, `--version`, `--brief`, `--pack "question"`, and `--doctor`.
 - 11 end-to-end tests using the official MCP SDK client over real stdio.
 - CI matrix for Node 20 and 22, MIT license, security policy, and issue templates.
