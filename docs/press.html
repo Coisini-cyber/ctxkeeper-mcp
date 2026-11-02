@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Press kit — ctxkeeper</title>
+  <meta name="description" content="Boilerplate, links, and assets for writing about ctxkeeper.">
+  <link rel="canonical" href="https://coisini-cyber.github.io/ctxkeeper-mcp/press.html">
+  <style>
+    :root { --bg:#070b16; --card:rgba(255,255,255,.035); --border:rgba(255,255,255,.09); --text:#e8eef8; --muted:#9aabc3; --dim:#6f7f98; --violet:#8b5cf6; --cyan:#22d3ee; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; --sans:"Segoe UI",Inter,-apple-system,Helvetica,Arial,sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.7; }
+    a { color:#a5b4fc; }
+    .nav { border-bottom:1px solid var(--border); }
+    .nav .wrap, main, footer .wrap { max-width:900px; margin:0 auto; padding:0 24px; }
+    .nav .wrap { height:60px; display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-family:var(--mono); font-weight:700; }
+    .brand span { color:var(--violet); }
+    .nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+    main { padding:60px 24px 90px; }
+    h1 { font-size:40px; letter-spacing:-1px; margin:0 0 8px; }
+    .sub { color:var(--muted); margin:0 0 36px; }
+    h2 { font-size:22px; margin:40px 0 12px; }
+    p, li { color:#c7d2e5; }
+    code { font-family:var(--mono); background:rgba(255,255,255,.06); padding:2px 6px; border-radius:5px; font-size:.9em; }
+    .box { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin:12px 0; }
+    .box p { margin:0 0 10px; }
+    .box p:last-child { margin:0; }
+    table { width:100%; border-collapse:collapse; margin:12px 0; }
+    th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); font-size:14px; }
+    th { color:var(--dim); font-weight:600; }
+    img.asset { width:100%; border:1px solid var(--border); border-radius:12px; margin:10px 0 4px; }
+    footer { border-top:1px solid var(--border); color:var(--dim); font-size:13px; }
+    footer .wrap { padding:26px 24px 40px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">ctx<span>keeper</span></div>
+      <div><a href="./">Home</a> · <a href="blog/">Blog</a> · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">GitHub ↗</a></div>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Press kit</h1>
+    <p class="sub">Everything needed to write about ctxkeeper. No approval required.</p>
+
+    <h2>Boilerplate</h2>
+    <div class="box">
+      <p><strong>One line:</strong> Local-first MCP server that gives coding agents durable project memory and token-budgeted context packs.</p>
+      <p><strong>Two lines:</strong> ctxkeeper stores decisions, gotchas, commands and TODOs in an append-only log next to the repository, and returns only the relevant code windows with <code>path:line</code> citations instead of whole files. No API keys, no vector database, no telemetry.</p>
+      <p><strong>Paragraph:</strong> AI coding agents are good at using tools and bad at remembering projects. Every new session re-explores the repository and re-asks for context that was already settled. ctxkeeper is a local stdio MCP server that adds a durable project memory and a token-budgeted context packer. It runs as one Node process, keeps state in a plain JSONL file, and exposes eight tools: <code>project_brief</code>, <code>context_pack</code>, <code>recall</code>, <code>remember</code>, <code>forget</code>, <code>todo</code>, <code>log_work</code>, and <code>status</code>. It is MIT licensed and has 11 end-to-end tests over real stdio.</p>
+    </div>
+
+    <h2>Facts</h2>
+    <table>
+      <tr><th>Name</th><td>ctxkeeper (one word, lowercase)</td></tr>
+      <tr><th>Repository</th><td><a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">Coisini-cyber/ctxkeeper-mcp</a></td></tr>
+      <tr><th>Website</th><td><a href="https://coisini-cyber.github.io/ctxkeeper-mcp/">coisini-cyber.github.io/ctxkeeper-mcp</a></td></tr>
+      <tr><th>License</th><td>MIT</td></tr>
+      <tr><th>Runtime</th><td>Node.js ≥ 20.11, stdio MCP</td></tr>
+      <tr><th>Dependencies</th><td>Official MCP SDK + Zod; no native modules</td></tr>
+      <tr><th>Data</th><td>Local JSONL; no network, accounts, or telemetry</td></tr>
+      <tr><th>Status</th><td>v0.1.0, pre-1.0</td></tr>
+    </table>
+
+    <h2>Assets</h2>
+    <p>Social card (1280×640) — right-click to download:</p>
+    <img class="asset" src="assets/social-card.png" alt="ctxkeeper social card">
+    <p>Banner (1200×320): <a href="assets/banner.svg">assets/banner.svg</a></p>
+    <p>Terminal demo: see the <a href="./#demo">home page</a>. Screenshots of real output are welcome; the CLI supports <code>--brief</code>, <code>--pack</code>, and <code>--doctor</code>.</p>
+
+    <h2>Angles</h2>
+    <ul>
+      <li><strong>Context engineering:</strong> the MCP ecosystem is saturated with connectors; the scarce layer is choosing what the model reads.</li>
+      <li><strong>Local-first AI tooling:</strong> durable memory without a vector database, API key, or cloud service.</li>
+      <li><strong>Cross-language retrieval:</strong> Chinese questions can retrieve English code through memory-to-code bridging.</li>
+      <li><strong>Agent handoff:</strong> what a coding agent should leave behind for the next session.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Use <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp/issues">GitHub Issues</a> for corrections and <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp/discussions">Discussions</a> for questions. Please do not publish security issues; see <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>MIT © 2026 Sixian Deng</div>
+      <div><a href="./">Home</a> · <a href="blog/">Blog</a></div>
+    </div>
+  </footer>
+</body>
+</html>

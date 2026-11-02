@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog — ctxkeeper</title>
+  <meta name="description" content="Notes on context engineering, MCP, and durable memory for AI coding agents.">
+  <link rel="canonical" href="https://coisini-cyber.github.io/ctxkeeper-mcp/blog/">
+  <style>
+    :root { --bg:#070b16; --border:rgba(255,255,255,.09); --text:#e8eef8; --muted:#9aabc3; --dim:#6f7f98; --violet:#8b5cf6; --cyan:#22d3ee; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; --sans:"Segoe UI",Inter,-apple-system,Helvetica,Arial,sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.7; }
+    a { color:inherit; }
+    .nav { border-bottom:1px solid var(--border); }
+    .nav .wrap, main, footer .wrap { max-width:820px; margin:0 auto; padding:0 24px; }
+    .nav .wrap { height:60px; display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-family:var(--mono); font-weight:700; }
+    .brand span { color:var(--violet); }
+    .nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+    main { padding:64px 24px 90px; }
+    h1 { font-size:40px; letter-spacing:-1px; margin:0 0 8px; }
+    .sub { color:var(--muted); margin:0 0 40px; }
+    article { padding:24px 0; border-top:1px solid var(--border); }
+    article h2 { font-size:24px; margin:0 0 8px; letter-spacing:-.4px; }
+    article h2 a { text-decoration:none; }
+    article h2 a:hover { color:#c4b5fd; }
+    .meta { font-family:var(--mono); font-size:12px; color:var(--cyan); letter-spacing:.5px; }
+    article p { color:var(--muted); margin:8px 0 0; }
+    footer { border-top:1px solid var(--border); color:var(--dim); font-size:13px; }
+    footer .wrap { padding:26px 24px 40px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">ctx<span>keeper</span></div>
+      <div><a href="../">Home</a> · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">GitHub ↗</a></div>
+    </div>
+  </nav>
+  <main>
+    <h1>Notes on context</h1>
+    <p class="sub">MCP, memory, and why agents should read less.</p>
+
+    <article>
+      <div class="meta">2026-11-02 · CONTEXT ENGINEERING</div>
+      <h2><a href="your-agent-forgets.html">Your coding agent forgets everything between sessions</a></h2>
+      <p>Why the missing MCP layer is context, not connectors — and the design trade-offs behind durable project memory and token-budgeted code windows.</p>
+    </article>
+  </main>
+  <footer>
+    <div class="wrap">
+      <div>MIT © 2026 Sixian Deng</div>
+      <div><a href="../">Home</a> · <a href="../press.html">Press kit</a></div>
+    </div>
+  </footer>
+</body>
+</html>

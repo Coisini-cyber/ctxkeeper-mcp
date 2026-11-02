@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your coding agent forgets everything between sessions — ctxkeeper</title>
+  <meta name="description" content="Why MCP needs a context layer, not another connector: durable project memory and token-budgeted context packs.">
+  <link rel="canonical" href="https://coisini-cyber.github.io/ctxkeeper-mcp/blog/your-agent-forgets.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Your coding agent forgets everything between sessions">
+  <meta property="og:description" content="Why MCP needs a context layer, not another connector.">
+  <meta property="og:image" content="https://coisini-cyber.github.io/ctxkeeper-mcp/assets/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #070b16; --card: #0d1424; --border: rgba(255,255,255,.09);
+      --text: #e8eef8; --muted: #9aabc3; --dim: #6f7f98;
+      --violet: #8b5cf6; --cyan: #22d3ee; --green: #4ade80;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.75; }
+    a { color: #a5b4fc; }
+    .nav { border-bottom: 1px solid var(--border); background: rgba(7,11,22,.8); position: sticky; top: 0; backdrop-filter: blur(12px); }
+    .nav .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-family: var(--mono); font-weight: 700; }
+    .brand span { color: var(--violet); }
+    .nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+    .nav a:hover { color: var(--text); }
+    main { max-width: 760px; margin: 0 auto; padding: 64px 24px 80px; }
+    .kicker { font-family: var(--mono); font-size: 13px; color: var(--cyan); letter-spacing: 1px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.1; letter-spacing: -1.4px; margin: 14px 0 18px; }
+    .lede { font-size: 20px; color: var(--muted); margin: 0 0 12px; }
+    .byline { color: var(--dim); font-size: 14px; margin-bottom: 42px; }
+    h2 { font-size: 26px; letter-spacing: -0.5px; margin: 46px 0 12px; }
+    p { color: #c7d2e5; margin: 0 0 18px; }
+    strong { color: #fff; }
+    code { font-family: var(--mono); font-size: .9em; background: rgba(255,255,255,.06); padding: 2px 6px; border-radius: 5px; }
+    pre { background: #0a1120; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { margin: 28px 0; padding: 2px 0 2px 20px; border-left: 3px solid var(--violet); color: var(--muted); }
+    .cta { margin: 44px 0 0; padding: 24px; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(140deg, rgba(139,92,246,.12), rgba(34,211,238,.05)); }
+    .cta p { margin: 0 0 14px; }
+    .btn { display: inline-block; padding: 10px 16px; border-radius: 9px; background: linear-gradient(120deg, var(--violet), var(--cyan)); color: #071018; font-weight: 700; text-decoration: none; font-size: 14px; }
+    footer { border-top: 1px solid var(--border); color: var(--dim); font-size: 13px; }
+    footer .wrap { max-width: 900px; margin: 0 auto; padding: 26px 24px 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">ctx<span>keeper</span></div>
+      <div><a href="../">Home</a> · <a href="../blog/">Blog</a> · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">GitHub ↗</a></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="kicker">Context engineering</div>
+    <h1>Your coding agent forgets everything between sessions</h1>
+    <p class="lede">Why MCP needs a context layer, not another connector.</p>
+    <div class="byline">2026-11-02 · 7 min read · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">ctxkeeper</a></div>
+
+    <p>Every Monday morning I open my editor, start a coding agent, and watch it discover the same repository for the twentieth time.</p>
+    <p>It lists files. It greps for a function. It reads three whole files to find thirty relevant lines. Then I explain — again — why the auth layer works the way it does, which command actually runs the tests, and why we don't touch that one module.</p>
+    <p>The agent is not the problem. The interface is. MCP gave agents hands: filesystem, GitHub, browser, databases. It did not give them memory, and it did not teach them to read less.</p>
+
+    <h2>The missing layer</h2>
+    <p>The MCP ecosystem is no longer small. The official registry lists roughly 47,000 active servers; the TypeScript and Python SDKs see hundreds of millions of downloads a month. Most of that supply is <strong>connectors</strong> — a tool for every API.</p>
+    <p>Connectors answer "can the agent access this system?" They do not answer:</p>
+    <blockquote>What does this project already know? Which 30 lines answer this question? What did we decide last week, and why? What should the next session pick up?</blockquote>
+    <p>That is a different layer. I built <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">ctxkeeper</a> for it.</p>
+
+    <h2>Two primitives: brief and pack</h2>
+    <p><code>project_brief</code> is the first call of a session. It returns a token-budgeted summary: stack, run/test commands, files to read first, git state, open TODOs, decisions, gotchas, recent work, and structure. One call replaces the exploratory phase.</p>
+    <p><code>context_pack</code> is the call before a focused change. You give it a concrete question — "where is the OAuth token refreshed?" — and it returns only the relevant code windows, with <code>path:line</code> citations, plus any matching project memories. The output has a token budget.</p>
+    <p>Around those two, there is durable memory: <code>remember</code>, <code>recall</code>, <code>todo</code>, <code>log_work</code>, <code>forget</code>. Decisions and gotchas stop living in yesterday's chat.</p>
+
+    <h2>Design choices worth arguing about</h2>
+    <p><strong>Append-only JSONL, not SQLite.</strong> Every write is an event (<code>memory.add</code>, <code>todo.set</code>, <code>worklog.add</code>). Reads replay the log. There are no native build steps, a crash is unlikely to corrupt the store, multiple clients can append without overwriting each other, and archiving is reversible. The cost is that the log will eventually need compaction.</p>
+    <p><strong>Memory as a retrieval bridge.</strong> A Chinese question rarely appears verbatim in English code. Matching memories contribute file paths and identifiers such as <code>refreshToken</code> as extra search terms, which are then used to locate the code window. It is a small trick that makes cross-language retrieval work without embeddings.</p>
+    <p><strong>Never truncate a code block mid-line.</strong> Each file gets a share of the budget. If the block does not fit, use the single best window; if that still does not fit, skip the file and say so. Half a function is worse than no function.</p>
+    <p><strong>Read-only by construction.</strong> No arbitrary shell. The only subprocess is fixed-argument <code>git</code>. Sensitive files are excluded from search, and high-confidence credential shapes are redacted from output. The store is still plain text, so the README says plainly: do not save secrets.</p>
+    <p><strong>Lexical retrieval in v0.1.</strong> No vector database, no embedding API. This is a deliberate trade-off: zero install friction and full offline operation, at the cost of missing paraphrases. The roadmap is an optional local embedding backend with lexical fallback, not a replacement.</p>
+
+    <h2>What I measured</h2>
+    <p>On the project itself — 17 source files, ~2.9k LOC, Windows 11, Node 22.23:</p>
+    <ul>
+      <li><code>project_brief</code> (cache hit): ~10 ms, 0.5–1.2k tokens</li>
+      <li><code>context_pack</code>: ~8–10 ms, ~1.0k tokens, 2–4 cited windows</li>
+      <li>Reading <code>src/store.ts</code> directly: ~3.5–4k tokens</li>
+    </ul>
+    <p>This is a pipeline check on a small repo, not a benchmark. The gap grows with file size, which is the point: the pack returns the lines around the answer, not the 430-line file.</p>
+
+    <h2>What is still missing</h2>
+    <ul>
+      <li>Retrieval is lexical. Paraphrases can miss.</li>
+      <li>Scans are capped at 6,000 files / 24 MB.</li>
+      <li>The event log does not compact itself yet.</li>
+      <li>No team sync, encryption, or permissions.</li>
+      <li>Memory quality depends on write quality: short titles, concrete content, file paths.</li>
+    </ul>
+    <p>The repo has 11 end-to-end tests over real stdio, CI on Node 20 and 22, and an MIT license. If the problem resonates, try it on one repository for a week and tell me what broke.</p>
+
+    <div class="cta">
+      <p><strong>Try it:</strong> clone the repo or point your MCP client at <code>npx -y github:Coisini-cyber/ctxkeeper-mcp</code>.</p>
+      <a class="btn" href="https://github.com/Coisini-cyber/ctxkeeper-mcp">Star on GitHub →</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>MIT © 2026 Sixian Deng</div>
+      <div><a href="../">Home</a> · <a href="../press.html">Press kit</a> · <a href="https://github.com/Coisini-cyber/ctxkeeper-mcp">GitHub</a></div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://coisini-cyber.github.io/ctxkeeper-mcp/sitemap.xml
