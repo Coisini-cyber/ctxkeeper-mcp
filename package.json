@@ -1,7 +1,6 @@
 {
   "name": "ctxkeeper-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "Local-first MCP server that gives AI coding agents durable project memory and token-budgeted context packs. No API keys, no vector DB.",
   "mcpName": "io.github.coisini-cyber/ctxkeeper",
   "license": "MIT",
@@ -30,6 +29,9 @@
   "type": "module",
   "bin": {
     "ctxkeeper": "dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "dist",
