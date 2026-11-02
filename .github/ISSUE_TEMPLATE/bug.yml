@@ -1,0 +1,43 @@
+name: Bug report
+description: Something is broken or a tool returns the wrong result
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please remove secrets and private paths from logs.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include the tool name, arguments, and output (redact secrets).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: ctxkeeper version / commit
+      placeholder: "0.1.0 or git SHA"
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: MCP client
+      placeholder: "OpenCode 2.2.5 / Claude Code / Cursor ..."
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS and Node version
+      placeholder: "Windows 11, Node 22.23"
+    validations:
+      required: true

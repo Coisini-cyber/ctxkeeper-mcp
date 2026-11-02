@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="ctxkeeper — durable project memory for AI coding agents">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080c18"/>
+      <stop offset="1" stop-color="#121a30"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity="0.035"/>
+    </pattern>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="320" fill="url(#bg)"/>
+  <rect width="1200" height="320" fill="url(#grid)"/>
+  <circle cx="1060" cy="70" r="240" fill="url(#glow)"/>
+  <circle cx="1110" cy="250" r="140" fill="#22d3ee" opacity="0.06"/>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="64" y="82" font-size="20" fill="#7f8ea8" letter-spacing="2">$ ctxkeeper --stdio</text>
+
+    <text x="64" y="166" font-size="58" font-weight="700" fill="#f8fafc" letter-spacing="-1">durable memory for</text>
+    <text x="64" y="232" font-size="58" font-weight="700" fill="url(#accent)" letter-spacing="-1">AI coding agents</text>
+
+    <text x="66" y="278" font-size="19" fill="#9fb0c9">One brief. The right 30 lines. Decisions that survive the session.</text>
+
+    <g font-size="15">
+      <rect x="812" y="130" width="150" height="34" rx="17" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+      <text x="887" y="152" fill="#c7d2e5" text-anchor="middle">local-first</text>
+
+      <rect x="974" y="130" width="162" height="34" rx="17" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+      <text x="1055" y="152" fill="#c7d2e5" text-anchor="middle">zero API keys</text>
+
+      <rect x="812" y="176" width="150" height="34" rx="17" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+      <text x="887" y="198" fill="#c7d2e5" text-anchor="middle">token budget</text>
+
+      <rect x="974" y="176" width="162" height="34" rx="17" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+      <text x="1055" y="198" fill="#c7d2e5" text-anchor="middle">no vector DB</text>
+    </g>
+  </g>
+
+  <rect x="0" y="316" width="1200" height="4" fill="url(#accent)"/>
+</svg>

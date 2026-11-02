@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest a retrieval, memory, or integration improvement
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the workflow, not only the proposed API.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed solution
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Design constraints
+      options:
+        - label: This can stay local-first (no network / API key)
+        - label: This does not require a native database dependency
