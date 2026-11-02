@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ctxkeeper": {
+      "command": "npx",
+      "args": ["-y", "github:Coisini-cyber/ctxkeeper-mcp"]
+    }
+  }
+}

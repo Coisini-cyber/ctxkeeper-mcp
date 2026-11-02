@@ -166,6 +166,8 @@ For project-only setup, put the same `mcp` block in the repository's `opencode.j
 }
 ```
 
+Step-by-step configs for Claude Code, Claude Desktop, Cursor, VS Code, and Windsurf: [docs/clients.md](docs/clients.md).
+
 ---
 
 ## Make the agent actually use it

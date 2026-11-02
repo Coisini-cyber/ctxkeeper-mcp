@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "ctxkeeper": {
+      "type": "local",
+      "command": ["node", "/absolute/path/to/ctxkeeper-mcp/dist/index.js"],
+      "enabled": true,
+      "timeout": 20000
+    }
+  }
+}

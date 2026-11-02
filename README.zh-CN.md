@@ -179,6 +179,8 @@ MCP server 会在握手时下发 `instructions`，但不同客户端对它的重
 }
 ```
 
+Claude Code / Claude Desktop / Cursor / VS Code / Windsurf 的逐步配置见 [`docs/clients.md`](docs/clients.md)。
+
 ---
 
 ## 5. 工具参考
