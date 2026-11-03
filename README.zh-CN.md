@@ -11,6 +11,7 @@
   <a href="LICENSE"><img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img alt="Node >= 20.11" src="https://img.shields.io/badge/node-%3E%3D20.11-brightgreen">
   <img alt="MCP stdio" src="https://img.shields.io/badge/MCP-stdio-8b5cf6">
+  <a href="https://tensorblock.co/mcp/servers/github-coisini-cyber-ctxkeeper-mcp-d7bd5f4e"><img alt="Indexed on TensorBlock MCP Index" src="https://mcp-index.tensorblock.co/v1/servers/github-coisini-cyber-ctxkeeper-mcp-d7bd5f4e/badge.svg"></a>
 </p>
 
 <p align="center"><a href="https://coisini-cyber.github.io/ctxkeeper-mcp/">官网</a> · <a href="README.md">English</a> · 简体中文</p>
